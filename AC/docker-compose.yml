@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  ac.web:
+    image: ${DOCKER_REGISTRY-}acweb
+    ports:
+      - "7080:80"
+    build:
+      context: .
+      dockerfile: AC.Web/Dockerfile
+
+  ac.api:
+    image: ${DOCKER_REGISTRY-}acapi
+    ports:
+      - "7094:80"
+    build:
+      context: .
+      dockerfile: AC.Api/Dockerfile
+
+  sql-server-db:
+    container_name: db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "MyPassword!"
+      ACCEPT_EULA: "Y"
