@@ -1,0 +1,41 @@
+﻿@page "/alunos"
+@inject IAlunoService alunoService;
+
+
+@if(Alunos == null)
+{
+    <h3>Carregando lista de alunos... </h3>
+}
+else
+{
+    <h3 class="mb-5">Alunos</h3>
+    @if (Alunos.Any())
+    {
+        <table class="table table-striped">
+
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Unidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Alunos)
+                {
+                    <tr>
+                        <td>@item.Nome</td>
+                        <td>@item.Unidade</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    public IEnumerable<AlunoDTO>? Alunos { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        Alunos = await alunoService.GetAlunos();
+    }
+}
