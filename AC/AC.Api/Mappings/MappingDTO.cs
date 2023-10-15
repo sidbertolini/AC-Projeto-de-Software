@@ -11,7 +11,9 @@ namespace AC.Api.Mappings
                     select new AlunoDTO
                     {
                         Nome = aluno.Name,
-                        Unidade = aluno.School
+                        Unidade = aluno.School,
+                        DataPagamento = aluno.DataPagamento,
+                        PagamentoValidoAte = aluno.PagamentoValidoAte
                     }).ToList();
         }
     }

@@ -1,0 +1,50 @@
+﻿@page "/alunosPagamento"
+@using System.Globalization
+@inject IAlunoService alunoService;
+
+
+@if(Alunos == null)
+{
+    <h3>Carregando lista de alunos... </h3>
+}
+else
+{
+    <h3 class="mb-5">Alunos com pendências</h3>
+    @if (Alunos.Any())
+    {
+        <table class="table table-striped">
+
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Unidade</th>
+                    <th scope="col">Pagamento válido até</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Alunos)
+                {
+                    <tr>
+                        <td>@item.Nome</td>
+                        <td>@item.Unidade</td>
+                        <td>@item.PagamentoValidoAte.ToString("d/M/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h5 class="mb-2">Nenhum aluno com pendências de pagamento</h5>
+    }
+}
+
+@code {
+    public IEnumerable<AlunoDTO>? Alunos { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        Alunos = await alunoService.GetAlunos();
+        Alunos = Alunos.Where(x => x.PagamentoValidoAte < DateTime.Today);
+
+    }
+}
