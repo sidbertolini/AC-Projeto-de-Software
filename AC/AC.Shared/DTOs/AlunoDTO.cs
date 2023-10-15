@@ -10,5 +10,7 @@ namespace AC.Models.DTOs
     {
         public string Nome { get; set; }
         public string Unidade { get; set; }
+        public DateTime DataPagamento { get; set; }
+        public DateTime PagamentoValidoAte { get; set; }
     }
 }
