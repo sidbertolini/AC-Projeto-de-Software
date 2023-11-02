@@ -32,5 +32,18 @@ namespace AC.Web.Services
 
             return null;
         }
-    }
+		public async Task CadastrarAluno(AlunoDTO alunoDTO)
+        {
+			try
+			{
+				await _httpClient.PostAsJsonAsync("api/aluno", alunoDTO);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogWarning(ex.Message);
+				throw;
+			}
+		}
+
+	}
 }

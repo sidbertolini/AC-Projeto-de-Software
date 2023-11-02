@@ -10,6 +10,6 @@ namespace AC.Api.Repositories
 
         Task<Aluno> GetById(int id);
 
-        Task CadastrarAlunoAsync(AlunoDTO aluno);
+        Task CadastrarAlunoAsync(Aluno aluno);
     }
 }
