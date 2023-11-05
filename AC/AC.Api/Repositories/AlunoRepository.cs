@@ -15,7 +15,7 @@ namespace AC.Api.Repositories
             _context = context;
         }
 
-        public async Task CadastrarAlunoAsync(AlunoDTO aluno)
+        public async Task CadastrarAlunoAsync(Aluno aluno)
         {
             _context.Add(aluno);
             var result = await _context.SaveChangesAsync();
