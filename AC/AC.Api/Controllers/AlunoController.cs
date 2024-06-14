@@ -1,4 +1,5 @@
-﻿using AC.Api.Mappings;
+﻿using AC.Api.Entities;
+using AC.Api.Mappings;
 using AC.Api.Repositories;
 using AC.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,17 @@ namespace AC.Api.Controllers
         {
             if (aluno != null)
             {
-                await _repository.CadastrarAlunoAsync(aluno);
+				var alunodb = new Aluno
+				{
+					Name = aluno.Nome,
+					School = aluno.Unidade,
+                    PagamentoValidoAte = aluno.DataPagamento.AddMonths(1),
+                    DataPagamento = aluno.DataPagamento,
+                    Birthdate = aluno.DataDeNascimento,
+                    Address = "",
+				};
+
+				await _repository.CadastrarAlunoAsync(alunodb);
                 return Ok();
             }
             else { return BadRequest(); }
