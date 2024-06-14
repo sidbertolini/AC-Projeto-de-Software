@@ -10,5 +10,6 @@
         public DateTime Birthdate { get; set; }
         public DateTime DataPagamento { get; set; }
         public DateTime PagamentoValidoAte { get; set; }
+        public Sala? Sala { get; set; }
     }
 }

@@ -47,6 +47,9 @@ namespace AC.Api.Migrations
                     b.Property<DateTime>("PagamentoValidoAte")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("SalaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("School")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -56,6 +59,8 @@ namespace AC.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SalaId");
+
                     b.ToTable("Alunos");
 
                     b.HasData(
@@ -63,10 +68,10 @@ namespace AC.Api.Migrations
                         {
                             Id = 1,
                             Address = "Rua Doze, 1",
-                            Birthdate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataPagamento = new DateTime(2023, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Birthdate = new DateTime(2001, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataPagamento = new DateTime(2024, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Joao Silva",
-                            PagamentoValidoAte = new DateTime(2023, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PagamentoValidoAte = new DateTime(2024, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             School = "Unidade 1",
                             SchoolYear = 2
                         },
@@ -74,13 +79,42 @@ namespace AC.Api.Migrations
                         {
                             Id = 2,
                             Address = "Rua Onze, 2",
-                            Birthdate = new DateTime(1996, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataPagamento = new DateTime(2023, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Birthdate = new DateTime(1997, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataPagamento = new DateTime(2024, 5, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Jose Marcio",
-                            PagamentoValidoAte = new DateTime(2023, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PagamentoValidoAte = new DateTime(2024, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             School = "Unidade 2",
                             SchoolYear = 3
                         });
+                });
+
+            modelBuilder.Entity("AC.Api.Entities.Sala", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Teacher")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sala");
+                });
+
+            modelBuilder.Entity("AC.Api.Entities.Aluno", b =>
+                {
+                    b.HasOne("AC.Api.Entities.Sala", "Sala")
+                        .WithMany()
+                        .HasForeignKey("SalaId");
+
+                    b.Navigation("Sala");
                 });
 #pragma warning restore 612, 618
         }

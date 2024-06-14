@@ -1,8 +1,7 @@
 ﻿using AC.Api.Data;
 using AC.Api.Entities;
-using Microsoft.EntityFrameworkCore;
-using AC.Models;
 using AC.Models.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace AC.Api.Repositories
 {
@@ -19,7 +18,7 @@ namespace AC.Api.Repositories
         {
             _context.Add(aluno);
             var result = await _context.SaveChangesAsync();
-            if(result != 0)
+            if (result != 0)
             {
                 await Task.CompletedTask;
             }
@@ -39,6 +38,52 @@ namespace AC.Api.Repositories
             else
             {
                 throw new ArgumentNullException(nameof(id));
+            }
+        }
+
+        //public async Task RemoveAluno(AlunoDTO aluno)
+        //{
+        //    if (aluno != null)
+        //    {
+        //        var alunodb = await _context.Alunos.FirstOrDefaultAsync(x => x.Name == aluno.Nome);
+        //        if (alunodb != null)
+        //        {
+        //            _context.Remove(alunodb);
+        //        }
+        //        else
+        //        {
+        //            throw new ArgumentNullException(nameof(aluno));
+        //        }
+        //    }
+        //    else
+        //    {
+        //        throw new ArgumentNullException(nameof(aluno));
+        //    }
+        //}
+
+        public async Task RemoverAluno(Aluno aluno)
+        {
+            var alunoDto = new AlunoDTO { Nome = aluno.Name };
+            if (aluno != null)
+            {
+                var alunodb = await _context.Alunos.FirstOrDefaultAsync(x => x.Name == alunoDto.Nome);
+                if (alunodb != null)
+                {
+                    _context.Remove(alunodb);
+                    var result = await _context.SaveChangesAsync();
+                    if (result != 0)
+                    {
+                        await Task.CompletedTask;
+                    }
+                }
+                else
+                {
+                    throw new ArgumentNullException(nameof(aluno));
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(aluno));
             }
         }
     }

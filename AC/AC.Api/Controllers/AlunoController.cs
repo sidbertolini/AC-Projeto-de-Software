@@ -40,5 +40,26 @@ namespace AC.Api.Controllers
             }
             else { return BadRequest(); }
         }
+        [HttpPost]
+        [Route("RemoverAluno")]
+        public async Task<ActionResult> RemoverAluno(AlunoDTO aluno)
+        {
+            if (aluno != null)
+            {
+                var alunodb = new Aluno
+                {
+                    Name = aluno.Nome,
+                    School = aluno.Unidade,
+                    PagamentoValidoAte = new DateTime(),
+                    DataPagamento = aluno.DataPagamento,
+                    Birthdate = aluno.DataDeNascimento,
+                    Address = "",
+                };
+
+                await _repository.RemoverAluno(alunodb);
+                return Ok();
+            }
+            else { return BadRequest(); }
+        }
     }
 }
